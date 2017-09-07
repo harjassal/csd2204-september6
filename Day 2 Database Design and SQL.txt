@@ -1,0 +1,406 @@
+
+Setting environment for using XAMPP for Windows.
+713155@203-IMAC11 c:\xampp
+# mysql
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| test               |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [(none)]> exit
+Bye
+
+713155@203-IMAC11 c:\xampp
+# mysql -u root-p
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database myTestDB;
+ERROR 1044 (42000): Access denied for user ''@'localhost' to database 'mytestdb'
+MariaDB [(none)]> exit
+Bye
+
+713155@203-IMAC11 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 4
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database myTestDB;
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> SHOW TABLES;
+Empty set (0.00 sec)
+
+MariaDB [mytestdb]> CREATE TABLE Student(Sid int(5),Snm Varchar(25),Gender Varchar(10),Age int(3));
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [mytestdb]> CREATE TABLE T(use int(3));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'use int(3))' at line 1
+MariaDB [mytestdb]> CREATE TABLE T(`use` int(1));
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [mytestdb]> SHOW TABLES;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| student            |
+| t                  |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>  CREATE TABLE Student(Sid int(5),Snm Varchar(25),Gender Varchar(10),Age int(3));
+ERROR 1050 (42S01): Table 'student' already exists
+MariaDB [mytestdb]> SHOW TABLES;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| student            |
+| t                  |
++--------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
+Empty set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTOStudent VALUES (1,'ABC','MALE','25');
+ERROR 1146 (42S02): Table 'mytestdb.intostudent' doesn't exist
+MariaDB [mytestdb]> INSERT INTO Student VALUES (1,'ABC','MALE','25');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
++------+------+--------+------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Student VALUES (2,'BBB','FEMALE','27');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
++------+------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Student(Sid,Snm,Gender,Age) VALUES (3,'ABB','FEMALE','27');
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
++------+------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Student(Sid,Snm,Gender,Age) VALUES (4,'Ajs','MALE','22');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
++------+------+--------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> INSERT INTO Student(Sid,Snm,Gender,Age) VALUES (5,'hhB','MALE','28');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT sid,snm FROM student;
++------+------+
+| sid  | snm  |
++------+------+
+|    1 | ABC  |
+|    2 | BBB  |
+|    3 | ABB  |
+|    4 | Ajs  |
+|    5 | hhB  |
++------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM STUDENT WHERE age=27;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
++------+------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM STUDENT WHERE sid>2;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM STUDENT WHERE sid != 3;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM STUDENT WHERE gender = 'male' AND sid=4 OR sid=5;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM STUDENT WHERE sid=4 OR sid=5;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DESCRIBE student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Sid    | int(5)      | YES  |     | NULL    |       |
+| Snm    | varchar(25) | YES  |     | NULL    |       |
+| Gender | varchar(10) | YES  |     | NULL    |       |
+| Age    | int(3)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from student where snm like 'ab%';
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    3 | ABB  | FEMALE |   27 |
++------+------+--------+------+
+2 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from student where snm like '%bb':
+    ->
+    -> SELECT * FROM student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ':
+
+SELECT * FROM student' at line 1
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from student where snm '_b%':
+    -> SELECT * FROM student;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ''_b%':
+SELECT * FROM student' at line 1
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student where snm like '_b%';
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
++------+------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student WHERE age BETWEEN 25 AND 30;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student WHERE age IN(27,25,30);
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
++------+------+--------+------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DESC student;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| Sid    | int(5)      | YES  |     | NULL    |       |
+| Snm    | varchar(25) | YES  |     | NULL    |       |
+| Gender | varchar(10) | YES  |     | NULL    |       |
+| Age    | int(3)      | YES  |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+
+| Sid  | Snm  | Gender | Age  |
++------+------+--------+------+
+|    1 | ABC  | MALE   |   25 |
+|    2 | BBB  | FEMALE |   27 |
+|    3 | ABB  | FEMALE |   27 |
+|    4 | Ajs  | MALE   |   22 |
+|    5 | hhB  | MALE   |   28 |
++------+------+--------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> ALTER TABLE student ADD city varchar(50) AFTER gender;
+Query OK, 0 rows affected (0.41 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+------+
+| Sid  | Snm  | Gender | city | Age  |
++------+------+--------+------+------+
+|    1 | ABC  | MALE   | NULL |   25 |
+|    2 | BBB  | FEMALE | NULL |   27 |
+|    3 | ABB  | FEMALE | NULL |   27 |
+|    4 | Ajs  | MALE   | NULL |   22 |
+|    5 | hhB  | MALE   | NULL |   28 |
++------+------+--------+------+------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> ALTER TABLE student ADD Marks varchar(50) AFTER age;
+Query OK, 0 rows affected (0.39 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mytestdb]> SELECT * FROM student;
++------+------+--------+------+------+-------+
+| Sid  | Snm  | Gender | city | Age  | Marks |
++------+------+--------+------+------+-------+
+|    1 | ABC  | MALE   | NULL |   25 | NULL  |
+|    2 | BBB  | FEMALE | NULL |   27 | NULL  |
+|    3 | ABB  | FEMALE | NULL |   27 | NULL  |
+|    4 | Ajs  | MALE   | NULL |   22 | NULL  |
+|    5 | hhB  | MALE   | NULL |   28 | NULL  |
++------+------+--------+------+------+-------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select sid `Student Id` from student;
++------------+
+| Student Id |
++------------+
+|          1 |
+|          2 |
+|          3 |
+|          4 |
+|          5 |
++------------+
+5 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
