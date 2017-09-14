@@ -1,0 +1,283 @@
+
+Setting environment for using XAMPP for Windows.
+713155@203-IMAC11 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 2
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| c0713155           |
+| information_schema |
+| mysql              |
+| mytestdb           |
+| performance_schema |
+| phpmyadmin         |
+| test               |
++--------------------+
+7 rows in set (0.02 sec)
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> create table Pieces(code int(5) primary key,Name varchar(50));
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [mytestdb]> create table Providers(code int(5) primary key,Name varchar(50));
+Query OK, 0 rows affected (0.56 sec)
+
+MariaDB [mytestdb]> create table Provides(code int(5) AUTO-INCREMENT,Piece int(5),Provider varchar(50),Price Double(10,2) CHECK(price>10),FOREIGN KEY(Piece) REFERENCES Pieces(code),FOREIGN KEY(Provider) REFERENCES Providers(code),PRIMARY KEY(code,piece,povider));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'AUTO-INCREMENT,Piece int(5),Provider varchar(50),Price Double(10,2) CHECK(price>' at line 1
+MariaDB [mytestdb]> create table Provides(code int(5) AUTO_INCREMENT,Piece int(5),Provider varchar(50),Price Double(10,2) CHECK(price>10),FOREIGN KEY(Piece) REFERENCES Pieces(code),FOREIGN KEY(Provider) REFERENCES Providers(code),PRIMARY KEY(code,piece,povider));
+ERROR 1072 (42000): Key column 'povider' doesn't exist in table
+MariaDB [mytestdb]> create table Provides(code int(5) AUTO_INCREMENT,Piece int(5),Provider varchar(50),Price Double(10,2) CHECK(price>10),FOREIGN KEY(Piece) REFERENCES Pieces(code),FOREIGN KEY(Provider) REFERENCES Providers(code),PRIMARY KEY(code,piece,provider));
+ERROR 1005 (HY000): Can't create table `mytestdb`.`provides` (errno: 150 "Foreign key constraint is incorrectly formed")MariaDB [mytestdb]> drop table pieces;
+Query OK, 0 rows affected (0.22 sec)
+
+MariaDB [mytestdb]> drop table providers;
+Query OK, 0 rows affected (0.23 sec)
+
+MariaDB [mytestdb]> drop table provides;
+ERROR 1051 (42S02): Unknown table 'mytestdb.provides'
+MariaDB [mytestdb]> CREATE TABLE Pieces(
+    -> Code Integer(10) Primary key,
+    -> Name VARCHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.28 sec)
+
+MariaDB [mytestdb]> CREATE TABLE Providers(
+    -> Code VARCHAR(50) PRIMARY key NOT NULL,
+    -> Name VARCHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.27 sec)
+
+MariaDB [mytestdb]> CREATE TABLE Provides(
+    -> Code Integer(10)  AUTO_INCREMENT,
+    -> Piece Integer(10)  References Pieces(Code),
+    -> Provider VARCHAR(50)  References Providers(Code),
+    -> Price Double(10,2) CHECK(Price >10),
+    -> PRIMARY KEY(Code,Piece,Provider)
+    -> );
+Query OK, 0 rows affected (0.30 sec)
+
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(1,'Sprocket');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(2,'Screw');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(3,'Nut');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Pieces(Code, Name) VALUES(4,'Bolt');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('HAL','Clarke Enterprises');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('RBT','Susan Calvin Corp.');
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Providers(Code, Name) VALUES('TNBC','Skellington Supplies');
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]>
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'HAL',10);
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(1,'RBT',15);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'HAL',20);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'RBT',15);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(2,'TNBC',14);
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'RBT',50);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(3,'TNBC',45);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'HAL',5);
+Query OK, 1 row affected (0.03 sec)
+
+MariaDB [mytestdb]> INSERT INTO Provides(Piece, Provider, Price) VALUES(4,'RBT',7);
+Query OK, 1 row affected (0.05 sec)
+
+MariaDB [mytestdb]> SELECT * FROM pieces;
++------+----------+
+| Code | Name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select name from pieces;
++----------+
+| name     |
++----------+
+| Sprocket |
+| Screw    |
+| Nut      |
+| Bolt     |
++----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select * from providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select p.code,AVG(m.price) from pieces p JOIN provides m ON p.code=m.piece;
++------+--------------+
+| code | AVG(m.price) |
++------+--------------+
+|    1 |    20.111111 |
++------+--------------+
+1 row in set (0.08 sec)
+
+MariaDB [mytestdb]> SELECT * FROM pieces;
++------+----------+
+| Code | Name     |
++------+----------+
+|    1 | Sprocket |
+|    2 | Screw    |
+|    3 | Nut      |
+|    4 | Bolt     |
++------+----------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM providers;
++------+----------------------+
+| Code | Name                 |
++------+----------------------+
+| HAL  | Clarke Enterprises   |
+| RBT  | Susan Calvin Corp.   |
+| TNBC | Skellington Supplies |
++------+----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 10.00 |
+|    2 |     1 | RBT      | 15.00 |
+|    3 |     2 | HAL      | 20.00 |
+|    4 |     2 | RBT      | 15.00 |
+|    5 |     2 | TNBC     | 14.00 |
+|    6 |     3 | RBT      | 50.00 |
+|    7 |     3 | TNBC     | 45.00 |
+|    8 |     4 | HAL      |  5.00 |
+|    9 |     4 | RBT      |  7.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> select name from pieces where code IN(select piece from provides where provider like '%HAL%');
++----------+
+| name     |
++----------+
+| Sprocket |
+| Screw    |
+| Bolt     |
++----------+
+3 rows in set (0.05 sec)
+
+MariaDB [mytestdb]> select name from pieces where code IN(select piece from provides where provider regexp '%HAL%');
+Empty set (0.00 sec)
+
+MariaDB [mytestdb]> select name from pieces where code IN(select piece from provides where provider regexp 'HAL');
++----------+
+| name     |
++----------+
+| Sprocket |
+| Screw    |
+| Bolt     |
++----------+
+3 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> UPDATE Provides SET Price = Price + 1;
+Query OK, 9 rows affected (0.08 sec)
+Rows matched: 9  Changed: 9  Warnings: 0
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 11.00 |
+|    2 |     1 | RBT      | 16.00 |
+|    3 |     2 | HAL      | 21.00 |
+|    4 |     2 | RBT      | 16.00 |
+|    5 |     2 | TNBC     | 15.00 |
+|    6 |     3 | RBT      | 51.00 |
+|    7 |     3 | TNBC     | 46.00 |
+|    8 |     4 | HAL      |  6.00 |
+|    9 |     4 | RBT      |  8.00 |
++------+-------+----------+-------+
+9 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> DELETE FROM Provides WHERE Provider = 'RBT' AND Piece = 4;
+Query OK, 1 row affected (0.06 sec)
+
+MariaDB [mytestdb]> SELECT * FROM provides;
++------+-------+----------+-------+
+| Code | Piece | Provider | Price |
++------+-------+----------+-------+
+|    1 |     1 | HAL      | 11.00 |
+|    2 |     1 | RBT      | 16.00 |
+|    3 |     2 | HAL      | 21.00 |
+|    4 |     2 | RBT      | 16.00 |
+|    5 |     2 | TNBC     | 15.00 |
+|    6 |     3 | RBT      | 51.00 |
+|    7 |     3 | TNBC     | 46.00 |
+|    8 |     4 | HAL      |  6.00 |
++------+-------+----------+-------+
+8 rows in set (0.00 sec)
+
+MariaDB [mytestdb]>
