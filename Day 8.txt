@@ -1,0 +1,86 @@
+
+Setting environment for using XAMPP for Windows.
+713155@203-IMAC11 c:\xampp
+# mysql -u root -p
+Enter password:
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 3
+Server version: 10.1.21-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2016, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use mytestdb;
+Database changed
+MariaDB [mytestdb]> show tables;
++--------------------+
+| Tables_in_mytestdb |
++--------------------+
+| audit              |
+| manufacturers      |
+| pet                |
+| pieces             |
+| products           |
+| providers          |
+| provides           |
+| student            |
+| t                  |
+| v1                 |
+| v3                 |
+| v4                 |
++--------------------+
+12 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> desc audit;
++---------------+-------------+------+-----+-------------------+----------------+
+| Field         | Type        | Null | Key | Default           | Extra          |
++---------------+-------------+------+-----+-------------------+----------------+
+| OperationID   | int(11)     | NO   | PRI | NULL              | auto_increment |
+| TableName     | varchar(50) | NO   |     | NULL              |                |
+| OperationName | varchar(10) | NO   |     | NULL              |                |
+| OperationDate | datetime    | YES  |     | CURRENT_TIMESTAMP |                |
++---------------+-------------+------+-----+-------------------+----------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mytestdb]> insert into audit(TableName, OperationName) VALUES('Products','Insert');
+Query OK, 1 row affected (0.08 sec)
+
+MariaDB [mytestdb]> select * from audit;
++-------------+-----------+---------------+---------------------+
+| OperationID | TableName | OperationName | OperationDate       |
++-------------+-----------+---------------+---------------------+
+|           1 | Products  | Insert        | 2017-09-15 19:15:28 |
++-------------+-----------+---------------+---------------------+
+1 row in set (0.00 sec)
+MariaDB [mytestdb]> delimiter //
+MariaDB [mytestdb]> CREATE TRIGGER Insert_check_Products AFTER INSERT ON Products
+    -> FOR EACH ROW
+    -> BEGIN
+    -> INSERT INTO Audit (TableName,OperationName) Values ('Products','Insert');
+    -> END;
+    -> //delimiter;
+Query OK, 0 rows affected (0.11 sec)
+
+    -> select * from audit;
+    -> //
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'delimiter;select * from audit' at line 1
+MariaDB [mytestdb]> delimiter//
+ERROR: DELIMITER must be followed by a 'delimiter' character or string
+MariaDB [mytestdb]> delimiter //
+MariaDB [mytestdb]> select * from audit;
+    -> //
++-------------+-----------+---------------+---------------------+
+| OperationID | TableName | OperationName | OperationDate       |
++-------------+-----------+---------------+---------------------+
+|           1 | Products  | Insert        | 2017-09-15 19:15:28 |
++-------------+-----------+---------------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mytestdb]> delimiter //
+MariaDB [mytestdb]> CREATE TRIGGER uPDATE_check_Products AFTER UPDATE ON Products
+    -> FOR EACH ROW
+    -> BEGIN
+    -> UPDATE INTO Audit (TableName,OperationName) Values ('Products','UPDATE');
+    -> END;
+    -> //delimiter;
